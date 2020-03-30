@@ -39,10 +39,10 @@ library(paletteer)
 ## --------------------------------------------------------------------
 library(showtext)
 showtext_auto()
-library(myriad)
-import_myriad_semi()
+#library(myriad)
+#import_myriad_semi()
 
-theme_set(theme_myriad_semi())
+#theme_set(theme_myriad_semi())
 
 ### --------------------------------------------------------------------
 
@@ -68,13 +68,15 @@ get_ecdc_data <- function(url = "https://www.ecdc.europa.eu/sites/default/files/
   destination <- fs::path(here::here("data"), paste0(fname, date), ext = ext)
   message("saving to: ", destination)
   
-  tf <- tempfile(fileext = ext)
-  curl::curl_download(target, tf)
-  fs::file_copy(tf, destination)
+  if(! file.exists(destination)) {
+    tf <- tempfile(fileext = ext)
+    curl::curl_download(target, tf)
+    fs::file_copy(tf, destination)
+  }
   
   switch(ext, 
-  xls = janitor::clean_names(readxl::read_xls(tf)),
-  xlsx = janitor::clean_names(readxl::read_xlsx(tf))
+         xls = janitor::clean_names(readxl::read_xls(destination)),
+         xlsx = janitor::clean_names(readxl::read_xlsx(destination))
   )
 }                          
 
@@ -96,11 +98,13 @@ get_uscovid_data <- function(url = "https://covidtracking.com/api/",
   destination <- fs::path(here::here("data/covid_us"), paste0(unit, "_daily_", date), ext = ext)
   message("saving to: ", destination)
   
-  tf <- tempfile(fileext = ext)
-  curl::curl_download(target, tf)
-  fs::file_copy(tf, destination)
+  if(! file.exists(destination)) {
+    tf <- tempfile(fileext = ext)
+    curl::curl_download(target, tf)
+    fs::file_copy(tf, destination)
+  }
   
-  janitor::clean_names(read_csv(tf))
+  janitor::clean_names(read_csv(destination))
 }                          
 
 
@@ -203,7 +207,9 @@ oceania <- c("ASM", "AUS", "NZL", "COK", "FJI", "PYF", "GUM", "KIR", "MNP", "MHL
 
 covid_raw <- get_ecdc_data(url = "https://www.ecdc.europa.eu/sites/default/files/documents/",
                            fname = "COVID-19-geographic-disbtribution-worldwide-",
-                           ext = "xlsx")
+                           ext = "xlsx",
+                           # date = lubridate::today() - lubridate::days(1)
+                           )
 covid_raw
 
 covid <- covid_raw %>%
@@ -258,7 +264,7 @@ anti_join(covid, cname_table) %>%
 
 ## cumulative cases for selected countries
 cu_out <- covid %>%
-  filter(iso3 %in% c("ITA", "CHN", "GBR", "FRA", 
+  filter(iso3 %in% c("ITA", "CHN", "GBR", "FRA", 'NLD', 'DEU', 'SWE',
                      "USA", "KOR")) %>%
   group_by(cname) %>%
   arrange(date) %>%
@@ -329,8 +335,8 @@ cov_curve <- covid %>%
 
 cov_curve
 
-focus_cn <- c("CHN", "GBR", "USA", "IRN", "JPN",
-              "KOR", "ITA", "FRA", "ESP")
+focus_cn <- c("CHN", "GBR", "USA", "IRN", "JPN", "NLD", "DEU", "SWE",
+              "KOR", "ITA", "FRA", "ESP", "UK")
 
 
 cov_curve %>%
