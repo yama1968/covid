@@ -135,10 +135,9 @@ cov_curve %>%
   guides(color = FALSE) + 
   scale_color_manual(values = prismatic::clr_darken(paletteer_d("ggsci::category20_d3"), 0.2)) +
   scale_y_continuous(labels = scales::comma_format(accuracy = 1), 
-                     breaks = c(32, 64, 128, 256, 512, 1024, 2048),
-                     trans = "log2") + 
+                     breaks = c(32, 64, 128, 256, 512, 1024, 2048)) + 
   labs(x = "Days Since 10th Confirmed Death", 
-       y = "Number of Deaths (log2 scale)", 
+       y = "Number of Deaths", 
        title = "Deaths from COVID-19, Selected Countries", 
        subtitle = paste("Data as of", format(max(cov_curve$date), "%A, %B %e, %Y")), 
        caption = "Kieran Healy @kjhealy / Data: ECDC") + 
@@ -168,10 +167,9 @@ cov_curve %>%
   guides(color = FALSE) + 
   scale_color_manual(values = prismatic::clr_darken(paletteer_d("ggsci::category20_d3"), 0.2)) +
   scale_y_continuous(labels = scales::comma_format(accuracy = 1), 
-                     breaks = c(32, 64, 128, 256, 512, 1024, 2048),
-                     trans = "log2") + 
+                     breaks = c(32, 64, 128, 256, 512, 1024, 2048)) + 
   labs(x = "Days Since 10th Confirmed Death", 
-       y = "Number of Cases (log2 scale)", 
+       y = "Number of Cases", 
        title = "Cases from COVID-19, Selected Countries", 
        subtitle = paste("Data as of", format(max(cov_curve$date), "%A, %B %e, %Y")), 
        caption = "Kieran Healy @kjhealy / Data: ECDC") + 

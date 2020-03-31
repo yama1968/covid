@@ -264,7 +264,7 @@ anti_join(covid, cname_table) %>%
 
 ## cumulative cases for selected countries
 cu_out <- covid %>%
-  filter(iso3 %in% c("ITA", "CHN", "GBR", "FRA", 'NLD', 'DEU', 'SWE',
+  filter(iso3 %in% c("ITA", "CHN", "GBR", "FRA", 'NLD', 'DEU', 'SWE', "TUR",
                      "USA", "KOR")) %>%
   group_by(cname) %>%
   arrange(date) %>%
@@ -335,7 +335,7 @@ cov_curve <- covid %>%
 
 cov_curve
 
-focus_cn <- c("CHN", "GBR", "USA", "IRN", "JPN", "NLD", "DEU", "SWE",
+focus_cn <- c("CHN", "GBR", "USA", "IRN", "JPN", "NLD", "DEU", "SWE", "TUR",
               "KOR", "ITA", "FRA", "ESP", "UK")
 
 
