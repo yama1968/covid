@@ -39,6 +39,11 @@ fra %>%
   filter(row_number() > 60) %>%
   qplot(date_rep, deaths, data = ., geom = "line")
 
+fra %>%
+  arrange(date_rep) %>%
+  filter(row_number() > 60) %>%
+  qplot(date_rep, cases, data = ., geom = "line")
+
 ita <- country_deaths("ITA", covid)
 ita
 
@@ -46,6 +51,18 @@ ita %>%
   arrange(date_rep) %>%
   filter(row_number() > 60) %>%
   qplot(date_rep, deaths, data = ., geom = "line")
+
+covid %>%
+  filter(iso3 %in% c("FRA", "ITA", "ESP", "DEU", "GBR")) %>%
+  filter(date_rep > ymd("20200215")) %>%
+  qplot(date_rep, cases, data = ., color = iso3, geom = c("line", "smooth"))
+
+
+covid %>%
+  filter(iso3 %in% c("FRA", "ITA", "ESP", "DEU", "GBR")) %>%
+  filter(date_rep > ymd("20200215")) %>%
+  qplot(date_rep, deaths, data = ., color = iso3, geom = c("line", "smooth"))
+
 
 cov_curve %>%
   group_by(iso3) %>%
