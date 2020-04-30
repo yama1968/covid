@@ -21,8 +21,6 @@ max_deaths <- cov_curve %>% group_by(iso3) %>%
   filter(row_number() == n()) %>% 
   select(date, iso3, deaths)
 
-
-
 last_death %>%
   inner_join(max_deaths, by = "iso3", suffix = c("_last", "_max")) %>%
   arrange(desc(deaths_last))
@@ -52,17 +50,18 @@ ita %>%
   filter(row_number() > 60) %>%
   qplot(date_rep, deaths, data = ., geom = "line")
 
+
+
+
 covid %>%
-  filter(iso3 %in% c("FRA", "ITA", "ESP", "DEU", "GBR")) %>%
+  filter(iso3 %in% c("FRA", "ITA", "ESP", "DEU", "GBR", "SWE")) %>%
   filter(date_rep > ymd("20200215")) %>%
   qplot(date_rep, cases, data = ., color = iso3, geom = c("line", "smooth"))
 
-
 covid %>%
-  filter(iso3 %in% c("FRA", "ITA", "ESP", "DEU", "GBR")) %>%
+  filter(iso3 %in% c("FRA", "ITA", "ESP", "DEU", "GBR", "USA", "SWE")) %>%
   filter(date_rep > ymd("20200215")) %>%
   qplot(date_rep, deaths, data = ., color = iso3, geom = c("line", "smooth"))
-
 
 cov_curve %>%
   group_by(iso3) %>%
@@ -198,3 +197,4 @@ cov_curve %>%
         axis.text.x = element_text(size = rel(2)),
         legend.text = element_text(size = rel(2))
   )
+
