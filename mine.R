@@ -1,5 +1,7 @@
 
 
+covid$date_rep <- ymd(covid$date_rep)
+
 covid.smooth <- cov_curve %>%
   group_by(iso3) %>%
   arrange(desc(date)) %>%
